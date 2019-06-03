@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>测试首页</title>
+
+    <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/base.css">
+    <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/base2.css">
+</head>
+<body>
+<div class="topbar">
+    <div class="wrap">
+        <div class="topbar-right">
+            <p>
+                <span>|</span>
+                联系邮箱：xkjskk@163.com
+            </p>
+        </div>
+    </div>
+</div>
+<!--搜索框-->
+<div class="home-hd">
+    <div class="wrap">
+        <div class="maintop">
+            <div class="search-box">
+                <input type="text" value="" placeholder="请输入要搜索的商品"><a class="search-btn">搜 索</a>
+            </div>
+        </div>
+    </div>
+    <div class="mainnav">
+        <ul class="wrap">
+            <li><a href="/">综合</a></li>
+            <li><a href="/yanxuan">最新</a></li>
+            <li><a href="/dashuju">价格升序</a></li>
+            <li class="liactive"><a href="/search">价格降序</a></li>
+            <li><a href="/juhuasuan">销量</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="zhibo wrap" id="yanxuan">
+    <div class="index-main wrap">
+        <!--        商品详情展示-->
+        <div class="goodslist">
+            {% for one_goods in goods_list %}
+                <div class="sc-product">
+                    <div class="product">
+                        <!--                    商品图片-->
+                        <div class="product-img">
+                            <a href="#" target="_blank">
+                                <img src="{{ one_goods.goods_pic }}"
+                                     alt="{{ one_goods.goods_title }}" class="lazy">
+                            </a>
+                        </div>
+                        <!--                    商品标题-->
+                        <div class="product-tit">
+                            <a href="#" target="_blank"
+                               title="{{ one_goods.goods_title }}">{{ one_goods.goods_title }}</a>
+                        </div>
+                        <!--                    商品价格-->
+                        <div class="product-price">
+                            <p class="quanhou">
+                                <span>￥</span>
+                                <span class="price-num">{{ one_goods.buy_price }}</span>
+                                <span>券后</span>
+                            </p>
+                            <!--                        图标展示-->
+                            <p class="library_icon">
+                                {#                                判断是否是天猫#}
+                                {% ifequal one_goods.is_tmall 1 %}
+                                    <i class="icon-red">猫</i>
+                                {% endifequal %}
+                                {#                            判断是否是聚划算#}
+                                {% ifequal one_goods.juhuasuan 1 %}
+                                    <i class="icon-red">聚</i>
+                                {% endifequal %}
+                                {#                                判断是否有运费险#}
+                                {% ifequal one_goods.yunfeixian 1 %}
+                                    <i class="icon-red">运</i>
+                                {% endifequal %}
+                                {#                            判断是否是金牌卖家#}
+                                {% ifequal one_goods.jinpai 1 %}
+                                    <i class="icon-red">金</i>
+                                {% endifequal %}
+                            </p>
+                        </div>
+                        <!--                价格信息-->
+                        <div class="quan-infro">
+                            <ul>
+                                <li>
+                                    <a href="#" target="_blank">
+                                    <span>
+                                        <em>{{ one_goods.coupon_amount }}</em>元 券
+                                    </span>
+                                        <i class="imageicon quan_right"></i>
+                                    </a>
+                                </li>
+                                <li class="dingxiang">
+                                    原价:
+                                    <span>
+                                    <em>{{ one_goods.goods_price }}</em>元
+                                </span>
+                                </li>
+                                <li>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--                    销量-->
+                        <div class="sales-infro">
+                            <p class="month-sales">
+                                月销：<span>
+                                {{ one_goods.goods_sale_num }}
+                            </span>
+                            </p>
+                            <p class="sales-text">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!--        分页信息-->
+        <div class="pages">
+            <ul class="pagination">
+                {#            上一页#}
+                <li {% ifequal page_dict.has_per 0 %}class="disabled"{% endifequal %}>
+                    <a href="{% url 'all_goods' %}?page={{ page_dict.per_num }}">«</a>
+                </li>
+                {% for one_page_num in page_dict.page_list %}
+                    <li {% ifequal page_dict.current_page one_page_num %}class="active"{% endifequal %}>
+                        <a href="{% url 'all_goods' %}?page={{ one_page_num }}">{{ one_page_num }}</a>
+                    </li>
+                {% endfor %}
+                {#                下一页#}
+                <li {% ifequal page_dict.has_next 0 %}class="disabled"{% endifequal %}>
+                    <a href="{% url 'all_goods' %}?page={{ page_dict.next_num }}" rel="next">»</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--底部信息栏-->
+<div class="home-footer">
+    <div class="wrap">
+        <a href="http://www.taokezhushou.com/yanxuan#">关于我们</a>|
+        <a href="http://www.taokezhushou.com/yanxuan#">联系客服</a>
+    </div>
+    <p>
+        v 1.0
+    </p>
+</div>
+
+</body>
+</html>
