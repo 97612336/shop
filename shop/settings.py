@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '58#*pxz_j&*$g=8&vm9qhp%u0k191!!ni2yi^*0r-$hth0-1+l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -157,4 +157,3 @@ TKZS_SESSION = tk_session()
 def reset_tkzs_session(TKZS_SESSION):
     logging.warning(TKZS_SESSION)
     TKZS_SESSION = tk_session()
-
