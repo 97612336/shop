@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from shop.views import get_all_goods
+from shop.views import get_all_goods, search_goods, goods_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_all_goods, name='all_goods'),
+    path('search/', search_goods, name='search_goods'),
+    path('detail/', goods_detail, name='goods_detail'),
 ]

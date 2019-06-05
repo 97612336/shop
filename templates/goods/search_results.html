@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>首页</title>
+    <title>搜索结果</title>
     <link rel="Shortcut Icon" href="https://file.bigbiy.com/upload_file/shop_ico.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/base.css">
     <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/base2.css">
@@ -23,6 +23,7 @@
         </div>
     </div>
 </div>
+
 <!--搜索框-->
 <div class="home-hd">
     <div class="wrap">
@@ -36,54 +37,29 @@
             </div>
         </div>
     </div>
-    <div class="mainnav">
-        <ul class="wrap">
-            <li {% ifequal kind 0 %}class="liactive"{% endifequal %}>
-                <a href="/">综合</a>
-            </li>
-            <li {% ifequal kind 100 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=100">热销商品</a>
-            </li>
-            <li {% ifequal kind 1 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?kind=1">女装</a>
-            </li>
-            <li {% ifequal kind 2 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=2">男装</a>
-            </li>
-            <li {% ifequal kind 3 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=3">内衣</a>
-            </li>
-            <li {% ifequal kind 4 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=4">数码家电</a>
-            </li>
-            <li {% ifequal kind 5 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=5">美食</a>
-            </li>
-            <li {% ifequal kind 6 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=6">美妆个户</a>
-            </li>
-            <li {% ifequal kind 7 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=7">母婴</a>
-            </li>
-            <li {% ifequal kind 8 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=8">鞋包配饰</a>
-            </li>
-            <li {% ifequal kind 9 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=9">家居家装</a>
-            </li>
-            <li {% ifequal kind 10 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=10">文体车品</a>
-            </li>
-            <li {% ifequal kind 11 %}class="liactive"{% endifequal %}>
-                <a href="{% url 'all_goods' %}?&kind=11">其他</a>
-            </li>
-        </ul>
-    </div>
 </div>
-
 
 <div class="zhibo wrap" id="yanxuan">
     <div class="index-main wrap">
+
+        <div class="choosebox">
+            <div class="otherfilter">
+                <ul>
+                    <li {% ifequal order 0 %}class="liactive"{% endifequal %}>
+                        <a type="sort" href="{% url "search_goods" %}?words={{ words }}&order=0">综合</a>
+                    </li>
+                    <li {% ifequal order 1 %}class="liactive"{% endifequal %}>
+                        <a type="sort" href="{% url "search_goods" %}?words={{ words }}&order=1">最低价格</a>
+                    </li>
+                    <li {% ifequal order 2 %}class="liactive"{% endifequal %}>
+                        <a type="sort" href="{% url "search_goods" %}?words={{ words }}&order=2">最高价格</a>
+                    </li>
+                    <li {% ifequal order 3 %}class="liactive"{% endifequal %}>
+                        <a type="sort" href="{% url "search_goods" %}?words={{ words }}&order=3">最高销量</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <!--        商品详情展示-->
         <div class="goodslist">
             {% for one_goods in goods_list %}
@@ -170,16 +146,17 @@
             <ul class="pagination">
                 {#            上一页#}
                 <li {% ifequal page_dict.has_per 0 %}class="disabled"{% endifequal %}>
-                    <a href="{% url 'all_goods' %}?page={{ page_dict.per_num }}&kind={{ kind }}">«</a>
+                    <a href="{% url 'search_goods' %}?page={{ page_dict.per_num }}&words={{ words }}&order={{ order }}">«</a>
                 </li>
                 {% for one_page_num in page_dict.page_list %}
                     <li {% ifequal page_dict.current_page one_page_num %}class="active"{% endifequal %}>
-                        <a href="{% url 'all_goods' %}?page={{ one_page_num }}&kind={{ kind }}">{{ one_page_num }}</a>
+                        <a href="{% url 'search_goods' %}?page={{ one_page_num }}&words={{ words }}&order={{ order }}">{{ one_page_num }}</a>
                     </li>
                 {% endfor %}
                 {#                下一页#}
                 <li {% ifequal page_dict.has_next 0 %}class="disabled"{% endifequal %}>
-                    <a href="{% url 'all_goods' %}?page={{ page_dict.next_num }}&kind={{ kind }}" rel="next">»</a>
+                    <a href="{% url 'search_goods' %}?page={{ page_dict.next_num }}&words={{ words }}&order={{ order }}"
+                       rel="next">»</a>
                 </li>
             </ul>
         </div>

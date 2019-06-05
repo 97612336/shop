@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 import json
+import logging
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import requests
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -128,3 +131,30 @@ def get_info():
 TKZS_DICT = get_info()
 APP_KEY = TKZS_DICT.get('appkey')
 PASSWORD = TKZS_DICT.get('password')
+MOBILE = TKZS_DICT.get('mobile')
+PID = TKZS_DICT.get('pid')
+
+
+# 获取登录后的session
+def tk_session():
+    session = requests.session()
+    login_url = 'http://www.taokezhushou.com/login'
+    login_data = {
+        "mobile": MOBILE,
+        "password": PASSWORD
+    }
+    login_res = session.post(login_url, data=login_data)
+    logging.warning(login_res)
+    logging.warning(MOBILE)
+    logging.warning(PASSWORD)
+    return session
+
+
+# 模拟登陆后的session
+TKZS_SESSION = tk_session()
+
+
+def reset_tkzs_session(TKZS_SESSION):
+    logging.warning(TKZS_SESSION)
+    TKZS_SESSION = tk_session()
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>搜索结果</title>
+    <link rel="Shortcut Icon" href="https://file.bigbiy.com/upload_file/shop_ico.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/base.css">
+    <link rel="stylesheet" type="text/css" href="https://file.bigbiy.com/css/shop/resultpage.css">
+</head>
+
+<body>
+<div class="topbar">
+    <div class="wrap">
+        <div class="topbar-left">
+            <p>
+                <a href="/">返回首页</a>
+            </p>
+        </div>
+        <div class="topbar-right">
+            <p>
+                <span>|</span>
+                联系邮箱：xkjskk@163.com
+            </p>
+        </div>
+    </div>
+</div>
+
+<!--搜索框-->
+<div class="home-hd">
+    <div class="wrap">
+        <div class="maintop">
+            <div class="search-box">
+                <form action="{% url "search_goods" %}" method="get">
+                    {% csrf_token %}
+                    <input type="text" value="" name="words" placeholder="请输入要搜索的商品">
+                    <input class="search-btn" type="submit" value="搜索">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="resultpage" id="detail">
+
+    <div class="rp-goods-details rp-box">
+        {#        商品图片#}
+        <a href="https://item.taobao.com/item.htm?id={{ goods_id }}" target="_blank" class="rp-details-image">
+            <img data-original="{{ goods_detail.goods_pic }}" class="lazy" src="{{ goods_detail.goods_pic }}"
+                 style="display: block;">
+        </a>
+
+        <div class="rp-details-right">
+            {#            查看淘宝详情#}
+            <div class="rp-details1">
+                <a href="https://item.taobao.com/item.htm?id={{ goods_id }}" target="_blank" class="rp-details-tit">
+                    {{ goods_detail.goods_title }}
+                </a>
+                <div>
+                    <a href="https://item.taobao.com/item.htm?id={{ goods_id }}" target="_blank">查看详情&gt;&gt;</a>
+                </div>
+            </div>
+
+            <div class="imageicon rp-details3">
+                <p class="goods-price-dts">
+                    <span class="price-dts1">券后价：<em>￥</em><em>{{ goods_detail.buy_price }}</em></span>
+                    <span>原价：<em>￥</em><em>{{ goods_detail.goods_price }}</em></span>
+                    <span>券有效期：<em>{{ goods_detail.coupon_start_time }} ~ {{ goods_detail.coupon_end_time }}</em></span>
+                </p>
+                <div class="yongjin-details">
+                    <div class="yongjin-details-right">
+                        <span class="price-quan-box">
+                            <i class="imageicon price-quan"></i>
+                            <em>{{ goods_detail.coupon_amount }}</em>
+                        </span>
+                        <p class="dts-quan-num">
+                            <span><em style="position:relative;top:2px">
+                            优惠券
+                            </em></span>
+                        </p>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="customline rp-box">
+        <div class="customline-top">
+            <p>优惠券</p>
+            <p>提示：复制短链接在浏览器中打开领取优惠券，或者复制淘口令到手机淘宝领取优惠券</p>
+            <p></p>
+        </div>
+
+        <div class="customline-content">
+
+            <div class="cline-content-left">
+                <div class="choose-mainimg">
+                    <div class="left-content-tit">
+                        <span class="choose-tit">图片</span>
+                    </div>
+                    <ul>
+                        <li class="">
+                            <div class="small-goodsimg">
+                                <img data-original="{{ goods_detail.goods_long_pic }}"
+                                     data-src="{{ goods_detail.goods_long_pic }}"
+                                     class="lazy"
+                                     src="{{ goods_detail.goods_long_pic }}"
+                                     style="display: block;">
+                            </div>
+                            <div class="big-goodsimg">
+                                <span>图片预览</span>
+                                <img data-original="{{ goods_detail.goods_long_pic }}"
+                                     class="lazy"
+                                     src="{{ goods_detail.goods_long_pic }}"
+                                     style="display: block;">
+                            </div>
+                            <i class="imageicon selected-icon"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cline-content-right" style="padding-top:32px;">
+                <div class="choose-model-tit" style="left:240px">
+                    <p data-type="1">优惠券</p>
+                    <p data-type="2">看下方</p>
+                </div>
+
+
+                <div class="promote-box QQ-template">
+                    <div class="promote-top">
+                        <p class="promote-title">优惠券</p>
+                    </div>
+                    <div class="promote-content">
+                        <div class="pt-ct-box">
+                            <div class="promote-muban">
+                                <div class="promote-content-left">
+                                    <p>
+                                        <a>
+                                            <img src="{{ goods_detail.goods_pic }}">
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="promote-content-right">
+                                    <p contenteditable="true">
+                                        {{ goods_detail.goods_short_title }}<br>
+                                        领券下单: <a href="{{ yhq.shortlink }}" target="_blank">{{ yhq.shortlink }}</a><br>
+                                        {{ goods_detail.goods_title }}<br>
+                                        <br>
+                                        复制这条红色代码<a>{{ yhq.taokouling }}</a>，打开☞手机淘宝☜即可领取优惠券并下单！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部信息栏-->
+<div class="home-footer">
+    <div class="wrap">
+        <a href="#">关于我们</a>|
+        <a href="#">联系客服</a>
+    </div>
+    <p>
+        v 1.0
+    </p>
+</div>
+
+</body>
+</html>
