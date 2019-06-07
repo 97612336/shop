@@ -161,7 +161,13 @@ def util_get_yhq(goods_id, coupon_id, short_title, def_run_num=0):
         "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Mobile Safari/537.36",
     }
     res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
-    res_dict = json.loads(res.text)
+    # 错误处理
+    try:
+        res_dict = json.loads(res.text)
+    except:
+        reset_tkzs_session(TKZS_SESSION)
+        res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
+        res_dict = json.loads(res.text)
     logging.warning(res_dict)
     if res_dict.get('status') == 200:
         yhq_dict = res_dict.get('data')

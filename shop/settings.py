@@ -157,3 +157,4 @@ TKZS_SESSION = tk_session()
 def reset_tkzs_session(TKZS_SESSION):
     logging.warning(TKZS_SESSION)
     TKZS_SESSION = tk_session()
+    print(TKZS_SESSION)
