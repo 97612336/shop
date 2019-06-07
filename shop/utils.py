@@ -165,7 +165,7 @@ def util_get_yhq(goods_id, coupon_id, short_title, def_run_num=0):
     try:
         res_dict = json.loads(res.text)
     except Exception as e:
-        write_except(e)
+        write_except(str(e))
         reset_tkzs_session(TKZS_SESSION)
         res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
         res_dict = json.loads(res.text)
