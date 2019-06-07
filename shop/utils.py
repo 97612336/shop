@@ -4,7 +4,7 @@ import math
 
 import requests
 
-from shop.settings import APP_KEY, TKZS_SESSION, PID, reset_tkzs_session
+from shop.settings import APP_KEY, TKZS_SESSION, PID, reset_tkzs_session, write_except
 
 
 # 获取所有商品信息
@@ -164,7 +164,8 @@ def util_get_yhq(goods_id, coupon_id, short_title, def_run_num=0):
     # 错误处理
     try:
         res_dict = json.loads(res.text)
-    except:
+    except Exception as e:
+        write_except(e)
         reset_tkzs_session(TKZS_SESSION)
         res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
         res_dict = json.loads(res.text)

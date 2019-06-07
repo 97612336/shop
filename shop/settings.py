@@ -158,3 +158,12 @@ def reset_tkzs_session(TKZS_SESSION):
     logging.warning(TKZS_SESSION)
     TKZS_SESSION = tk_session()
     print(TKZS_SESSION)
+
+
+# 把错误写入家目录下的文件
+def write_except(e):
+    home_path = os.getenv('HOME')
+    errot_file_path = os.path.join(home_path, 'err_file.txt')
+    with open(errot_file_path, 'a+') as f:
+        f.write(e)
+    logging.warning(errot_file_path)
