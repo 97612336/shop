@@ -14,6 +14,7 @@ import logging
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import redis
 import requests
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -150,20 +151,26 @@ def tk_session():
     return session
 
 
-# 模拟登陆后的session
-TKZS_SESSION = tk_session()
-
-
-def reset_tkzs_session(TKZS_SESSION):
-    logging.warning(TKZS_SESSION)
-    TKZS_SESSION = tk_session()
-    print(TKZS_SESSION)
-
-
 # 把错误写入家目录下的文件
 def write_except(e):
     home_path = os.getenv('HOME')
     errot_file_path = os.path.join(home_path, 'err_file.txt')
     with open(errot_file_path, 'a+') as f:
-        f.write(e)
+        f.write(e + '/n')
     logging.warning(errot_file_path)
+
+
+# 获取淘客助手session
+def get_tkzs_cookies():
+    # 首先查询redis中是否存在
+    r = redis.StrictRedis()
+    cookies_dict_str = r.get("tkzs_cookies")
+    if not cookies_dict_str:
+        tkzs_session = tk_session()
+        cookies_dict = tkzs_session.cookies.get_dict()
+        cookies_dict_str = json.dumps(cookies_dict)
+        r.setex("tkzs_cookies", 60 * 20, cookies_dict_str)
+        return cookies_dict
+    else:
+        cookies_dict = json.loads(cookies_dict_str)
+        return cookies_dict

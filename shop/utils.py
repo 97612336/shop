@@ -4,7 +4,7 @@ import math
 
 import requests
 
-from shop.settings import APP_KEY, TKZS_SESSION, PID, reset_tkzs_session, write_except
+from shop.settings import APP_KEY, PID, write_except, get_tkzs_cookies
 
 
 # 获取所有商品信息
@@ -147,8 +147,8 @@ def util_goods_detail(goods_id):
 
 
 # 获取商品优惠券
-def util_get_yhq(goods_id, coupon_id, short_title, def_run_num=0):
-    cookies_dict = TKZS_SESSION.cookies.get_dict()
+def util_get_yhq(goods_id, coupon_id, short_title):
+    cookies_dict = get_tkzs_cookies()
     url = 'http://www.taokezhushou.com/zhuanlian'
     data = {
         "goods_id": goods_id,
@@ -162,22 +162,10 @@ def util_get_yhq(goods_id, coupon_id, short_title, def_run_num=0):
     }
     res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
     # 错误处理
-    try:
-        res_dict = json.loads(res.text)
-    except Exception as e:
-        write_except(str(e))
-        reset_tkzs_session(TKZS_SESSION)
-        res = requests.post(url=url, data=data, cookies=cookies_dict, headers=headers)
-        res_dict = json.loads(res.text)
+    res_dict = json.loads(res.text)
     logging.warning(res_dict)
     if res_dict.get('status') == 200:
         yhq_dict = res_dict.get('data')
         return yhq_dict
     else:
-        # 限制递归次数
-        if def_run_num < 3:
-            def_run_num = def_run_num + 1
-            reset_tkzs_session(TKZS_SESSION)
-            util_get_yhq(goods_id, coupon_id, short_title, def_run_num=def_run_num)
-        else:
-            return {}
+        return {}
