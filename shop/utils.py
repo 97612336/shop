@@ -47,6 +47,16 @@ def get_pages(total, curremt_page):
     # 总分页数
     max_page = math.ceil(total / page_size)
     logging.warning(max_page)
+    if not max_page:
+        tmp = {
+            "page_list": [],
+            "has_per": 0,
+            "per_num": 0,
+            "has_next": 0,
+            "next_num": 0,
+            "current_page": 0
+        }
+        return tmp
     all_page_list = [x + 1 for x in range(max_page)]
     curremt_page_index = all_page_list.index(curremt_page)
     # 获取分页列表
